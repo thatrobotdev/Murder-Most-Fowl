@@ -1,0 +1,54 @@
+using UnityEngine;
+
+public class ClueObject : MonoBehaviour
+{
+    private SpriteRenderer _spriteRenderer;
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+    void OnEnable()
+    {
+        CoroutineUtils.ExecuteAfterEndOfFrame(EnableActions, this);
+    }
+    void OnDisable()
+    {
+        CameraController.Instance.PointerEnterAction -= OnPointerEnter;
+        CameraController.Instance.PointerExitAction -= OnPointerExit;
+    }
+
+    void EnableActions()
+    {
+        CameraController.Instance.PointerEnterAction += OnPointerEnter;
+        CameraController.Instance.PointerExitAction += OnPointerExit;
+    }
+
+    void OnPointerEnter(GameObject gO)
+    {
+        Debug.Log("Pointer Enter!");
+        if (!gO || !gO.Equals(gameObject))
+        {
+            return;
+        }
+
+        _spriteRenderer.color = Color.red;
+    }
+
+    void OnPointerExit(GameObject gO)
+    {
+        Debug.Log("Pointer Exit!");
+        if (!gO || !gO.Equals(gameObject))
+        {
+            return;
+        }
+
+        _spriteRenderer.color = Color.green;
+    }
+}

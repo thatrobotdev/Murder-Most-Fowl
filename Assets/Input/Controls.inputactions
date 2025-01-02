@@ -761,7 +761,7 @@
                     "name": "RightClick",
                     "type": "Button",
                     "id": "b07e077b-7eac-4ca6-8646-f82a4c97f4f1",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "Hold(duration=0.2)",
                     "initialStateCheck": false

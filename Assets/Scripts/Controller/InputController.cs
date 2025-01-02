@@ -82,13 +82,13 @@ public class InputController : Singleton<InputController>
     // Start is called before the first frame update
     void Start()
     {
-        
+        _screenPosition = Vector2.zero;
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log(eventSystem.currentSelectedGameObject);
+        OnHover();
     }
 
     private void SetMainControls() {
@@ -111,7 +111,6 @@ public class InputController : Singleton<InputController>
         _leftClickAction.started += OnLeftClickStarted;
         _leftClickAction.canceled += OnLeftClickCanceled;
 
-        _cursorAction.performed += OnCursor;
         _deltaCursorAction.performed += OnDeltaCursor;
 
         _openClueBoardAction.performed += OnOpenClueBoard;
@@ -138,10 +137,6 @@ public class InputController : Singleton<InputController>
         inputActions.FindActionMap(_currentActionMap.id).Disable();
     }
 
-    private void OnCursor(InputAction.CallbackContext context) {
-        _screenPosition = context.ReadValue<Vector2>();
-        OnHover();
-    }
     private void OnDeltaCursor(InputAction.CallbackContext inputValue) {
         _mouseDelta = inputValue.ReadValue<Vector2>();
         MouseMove?.Invoke(_mouseDelta);
@@ -175,7 +170,10 @@ public class InputController : Singleton<InputController>
         Debug.Log("Just a click!!!");
         LeftClick?.Invoke();
     }
-    private void OnHover() {
+    private void OnHover()
+    {
+        Debug.Log("Hover Input");
+        _screenPosition = _cursorAction.ReadValue<Vector2>();
         Hover?.Invoke(_screenPosition);
     }
 
@@ -198,7 +196,7 @@ public class InputController : Singleton<InputController>
 
     private void OnScrollPerformed(InputAction.CallbackContext context) {
         //Debug.Log(context.ReadValue<Vector2>().y);
-        OnScrollCB.Invoke(context.ReadValue<Vector2>().y);
+        OnScrollCB?.Invoke(context.ReadValue<Vector2>().y);
     }
 
     private void ToggleActionMap(InputActionMap actionMap) {

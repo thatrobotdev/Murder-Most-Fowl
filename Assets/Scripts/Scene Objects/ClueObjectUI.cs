@@ -10,6 +10,7 @@ public class ClueObjectUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        
         //_outline.enabled = false;
     }
 

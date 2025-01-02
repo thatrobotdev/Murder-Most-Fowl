@@ -17,20 +17,24 @@ public class CameraController : Singleton<CameraController>
     [SerializeField]
     private float panSensitivity = 5f;
 
-    private float _distanceFromInitial;
     [SerializeField]
     private float distanceFrom = 5.0f;
+    [SerializeField]
+    private LayerMask _hitMask;
+
 
     private CinemachineBrain _cinemachineBrain;
     private CinemachineVirtualCamera _cinemachineCam;
     private Ray _cameraRayOut;
-    private RaycastHit _closestHit;
+    private RaycastHit2D _closestHit;
+
     private Transform _cameraTransform;
     private Vector3 _defaultPos;
     private Vector3 _currentPos;
     private Vector3 _panMove;
     private bool _panCamera;
-    private LayerMask _hitMask;
+    
+    private float _distanceFromInitial;
 
     public Camera MainCamera
     {
@@ -44,7 +48,7 @@ public class CameraController : Singleton<CameraController>
         get => _cameraRayOut;
     }
     
-    public RaycastHit ClosestHit
+    public RaycastHit2D ClosestHit
     {
         get => _closestHit;
         private set => _closestHit = value;
@@ -56,7 +60,8 @@ public class CameraController : Singleton<CameraController>
     }
 
     public event Action<GameObject> ClickAction;
-    public event Action<GameObject> HoverAction;
+    public event Action<GameObject> PointerEnterAction;
+    public event Action<GameObject> PointerExitAction;
 
     private void Awake()
     {
@@ -69,8 +74,6 @@ public class CameraController : Singleton<CameraController>
     void Start()
     {
         SetCamera();
-        DeactivateCamera();
-        ActivateCamera();
     }
 
     private void LateUpdate()
@@ -80,10 +83,7 @@ public class CameraController : Singleton<CameraController>
     }
     private void OnEnable()
     {
-        if (InputController.Instance != null) {
-            DeactivateCamera();
-            ActivateCamera();
-        }
+        CoroutineUtils.ExecuteAfterEndOfFrame(ActivateCamera, this);
     }
     private void OnDisable()
     {
@@ -130,40 +130,54 @@ public class CameraController : Singleton<CameraController>
     }
     public void Hover(Vector2 screenPos)
     {
+        Debug.Log("Hover Camera");
         _cameraRayOut = MainCamera.ScreenPointToRay(screenPos);
-        RaycastHit hit = SetHit(_cameraRayOut);
-        if (hit.Equals(new RaycastHit()))
+        RaycastHit2D hit = SetHit(_cameraRayOut);
+        if (!hit.transform)
         {
-            HoverAction?.Invoke(null);
+            if (_closestHit.transform) {
+                PointerEnterAction?.Invoke(null);
+                PointerExitAction?.Invoke(_closestHit.transform.gameObject);
+                _closestHit = hit;
+            }
             return;
         }
-        if (hit.transform.gameObject.Equals(_closestHit.transform.gameObject))
+        if (_closestHit.transform && (hit.transform.gameObject.Equals(_closestHit.transform.gameObject) || _closestHit.transform.gameObject.layer == LayerMask.GetMask("UI")))
         {
             return;
+        }
+        PointerEnterAction?.Invoke(hit.transform.gameObject);
+        if (_closestHit.transform)
+        {
+            PointerExitAction?.Invoke(_closestHit.transform.gameObject);
         }
         _closestHit = hit;
-        HoverAction?.Invoke(_closestHit.transform.gameObject);
     }
 
-    private RaycastHit SetHit(Ray ray)
+    private RaycastHit2D SetHit(Ray ray)
     {
-        RaycastHit[] cameraRayHits = Physics.RaycastAll(ray, Mathf.Infinity, HitMask);
+        RaycastHit2D[] cameraRayHits = Physics2D.RaycastAll(ray.origin, ray.direction, Mathf.Infinity, HitMask.value);
         float closestDistance = Mathf.Infinity;
-        RaycastHit hit = new();
+        RaycastHit2D hit = new();
         string test = "";
         int x = 1;
-        foreach (RaycastHit cameraRayHit in cameraRayHits)
+
+        float ray_z = ray.origin.z;
+        foreach (RaycastHit2D cameraRayHit in cameraRayHits)
         {
             Transform rayTransform = cameraRayHit.transform;
             float angle = Vector3.Angle(ray.direction, rayTransform.up);
             float dot = Vector3.Dot(ray.direction, rayTransform.up);
 
+            float cameraRay_z = cameraRayHit.transform.position.z;
+            float cameraRayDist = Math.Abs(cameraRay_z - ray_z);
+
             test += (x + ". " + cameraRayHit.transform.gameObject.name + "; Distance: " + cameraRayHit.distance + "; Dot: " + dot + " ||| ");
             x++;
-            if (cameraRayHit.distance < closestDistance && cameraRayHit.distance > mainCamera.nearClipPlane)
+            if (cameraRayDist < closestDistance && cameraRayDist > mainCamera.nearClipPlane)
             {
                 hit = cameraRayHit;
-                closestDistance = cameraRayHit.distance;
+                closestDistance = cameraRayDist;
             }
         }
         //Debug.Log(test);
@@ -172,7 +186,7 @@ public class CameraController : Singleton<CameraController>
 
     public void ScreenClick()
     {
-        if (_closestHit.Equals(new RaycastHit()))
+        if (_closestHit.Equals(new RaycastHit2D()))
         {
             ClickAction?.Invoke(null);
             Debug.Log($"Click gameobject: null");
