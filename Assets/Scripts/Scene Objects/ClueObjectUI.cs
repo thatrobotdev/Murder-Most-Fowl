@@ -1,16 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ClueObjectUI : MonoBehaviour
 {
-    //[SerializeField]
+    [SerializeField] private Image _image;
     //private Outline _outline;
 
     // Start is called before the first frame update
     void Start()
     {
-        
         //_outline.enabled = false;
     }
 
@@ -22,5 +22,10 @@ public class ClueObjectUI : MonoBehaviour
 
     public void Select(bool select) {
         //_outline.enabled = select;
+    }
+
+    public void ChangeColor()
+    {
+        _image.color = Color.blue;
     }
 }

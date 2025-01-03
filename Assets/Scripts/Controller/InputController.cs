@@ -172,7 +172,6 @@ public class InputController : Singleton<InputController>
     }
     private void OnHover()
     {
-        Debug.Log("Hover Input");
         _screenPosition = _cursorAction.ReadValue<Vector2>();
         Hover?.Invoke(_screenPosition);
     }

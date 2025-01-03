@@ -5,6 +5,7 @@ using Cinemachine;
 using UnityEditor;
 using System;
 using Unity.VisualScripting;
+using UnityEngine.UI;
 
 public class CameraController : Singleton<CameraController>
 {
@@ -131,6 +132,7 @@ public class CameraController : Singleton<CameraController>
     public void Hover(Vector2 screenPos)
     {
         Debug.Log("Hover Camera");
+        //_cameraUIRayOut = MainCamera.WorldToViewportPoint()
         _cameraRayOut = MainCamera.ScreenPointToRay(screenPos);
         RaycastHit2D hit = SetHit(_cameraRayOut);
         if (!hit.transform)
@@ -156,6 +158,8 @@ public class CameraController : Singleton<CameraController>
 
     private RaycastHit2D SetHit(Ray ray)
     {
+        //GraphicRaycaster raycaster;
+        //raycaster.Raycast();
         RaycastHit2D[] cameraRayHits = Physics2D.RaycastAll(ray.origin, ray.direction, Mathf.Infinity, HitMask.value);
         float closestDistance = Mathf.Infinity;
         RaycastHit2D hit = new();
