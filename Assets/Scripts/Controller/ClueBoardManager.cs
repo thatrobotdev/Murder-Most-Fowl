@@ -26,8 +26,8 @@ public class ClueBoardManager : Singleton<ClueBoardManager>
     {
         m_Canvas = GetComponent<Canvas>();
 
-        InputController.Instance.ToggleClueBoard += ToggleCanvas;
-        InputController.Instance.OnScrollCB += OnScroll;
+        //InputController.Instance.ToggleClueBoard += ToggleCanvas;
+        //InputController.Instance.OnScrollCB += OnScroll;
 
         zoom = 1.0f;
         ToggleCanvas(false);

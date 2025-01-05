@@ -1,12 +1,17 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class ClueObject : MonoBehaviour
+public class ClueObject : MonoBehaviour,
+    IPointerEnterHandler, IPointerExitHandler,
+    IPointerClickHandler
 {
+    [SerializeField]
     private SpriteRenderer _spriteRenderer;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        _spriteRenderer = GetComponent<SpriteRenderer>();
+        if (!_spriteRenderer)
+            _spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -14,41 +19,20 @@ public class ClueObject : MonoBehaviour
     {
         
     }
-    void OnEnable()
-    {
-        CoroutineUtils.ExecuteAfterEndOfFrame(EnableActions, this);
-    }
-    void OnDisable()
-    {
-        CameraController.Instance.PointerEnterAction -= OnPointerEnter;
-        CameraController.Instance.PointerExitAction -= OnPointerExit;
-    }
 
-    void EnableActions()
+    public void OnPointerEnter(PointerEventData eventData)
     {
-        CameraController.Instance.PointerEnterAction += OnPointerEnter;
-        CameraController.Instance.PointerExitAction += OnPointerExit;
-    }
-
-    void OnPointerEnter(GameObject gO)
-    {
-        Debug.Log("Pointer Enter!");
-        if (!gO || !gO.Equals(gameObject))
-        {
-            return;
-        }
-
+        Debug.Log(eventData);
         _spriteRenderer.color = Color.red;
     }
 
-    void OnPointerExit(GameObject gO)
+    public void OnPointerExit(PointerEventData eventData)
     {
-        Debug.Log("Pointer Exit!");
-        if (!gO || !gO.Equals(gameObject))
-        {
-            return;
-        }
-
         _spriteRenderer.color = Color.green;
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        Debug.Log(eventData);
     }
 }
