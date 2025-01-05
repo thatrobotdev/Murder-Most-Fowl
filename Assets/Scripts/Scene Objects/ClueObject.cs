@@ -1,6 +1,8 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class ClueObject : MonoBehaviour
+public class ClueObject : MonoBehaviour,
+    IPointerEnterHandler, IPointerExitHandler
 {
     private SpriteRenderer _spriteRenderer;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -20,35 +22,25 @@ public class ClueObject : MonoBehaviour
     }
     void OnDisable()
     {
-        CameraController.Instance.PointerEnterAction -= OnPointerEnter;
-        CameraController.Instance.PointerExitAction -= OnPointerExit;
+        //CameraController.Instance.PointerEnterAction -= OnPointerEnter;
+       // CameraController.Instance.PointerExitAction -= OnPointerExit;
     }
 
     void EnableActions()
     {
-        CameraController.Instance.PointerEnterAction += OnPointerEnter;
-        CameraController.Instance.PointerExitAction += OnPointerExit;
+        //CameraController.Instance.PointerEnterAction += OnPointerEnter;
+        //CameraController.Instance.PointerExitAction += OnPointerExit;
     }
 
-    void OnPointerEnter(GameObject gO)
+    public void OnPointerEnter(PointerEventData eventData)
     {
         Debug.Log("Pointer Enter!");
-        if (!gO || !gO.Equals(gameObject))
-        {
-            return;
-        }
-
         _spriteRenderer.color = Color.red;
     }
 
-    void OnPointerExit(GameObject gO)
+    public void OnPointerExit(PointerEventData eventData)
     {
         Debug.Log("Pointer Exit!");
-        if (!gO || !gO.Equals(gameObject))
-        {
-            return;
-        }
-
         _spriteRenderer.color = Color.green;
     }
 }

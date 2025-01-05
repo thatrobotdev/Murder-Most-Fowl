@@ -750,6 +750,7 @@ GameObject:
   - component: {fileID: 956921679}
   - component: {fileID: 956921678}
   - component: {fileID: 956921683}
+  - component: {fileID: 956921684}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -929,6 +930,22 @@ MonoBehaviour:
   _hitMask:
     serializedVersion: 2
     m_Bits: 97
+--- !u!114 &956921684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 956921677}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56666c5a40171f54783dd416a44f42bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EventMask:
+    serializedVersion: 2
+    m_Bits: 113
+  m_MaxRayIntersections: 0
 --- !u!1 &972040018
 GameObject:
   m_ObjectHideFlags: 0
@@ -1029,8 +1046,9 @@ GameObject:
   - component: {fileID: 1044698288}
   - component: {fileID: 1044698287}
   - component: {fileID: 1044698286}
+  - component: {fileID: 1044698289}
   m_Layer: 0
-  m_Name: UIEventSystem
+  m_Name: InputSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1097,6 +1115,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1044698289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1044698285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07c7551f8e1cbd2408d0a939bd26798d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputActions: {fileID: -944628639613478452, guid: b55fb176813d48f4380b77e22f9e0a7f, type: 3}
+  eventSystem: {fileID: 1044698287}
+  uiInputModule: {fileID: 1044698286}
 --- !u!1 &1108523486
 GameObject:
   m_ObjectHideFlags: 0
@@ -1182,7 +1215,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1450386228}
   - component: {fileID: 1450386227}
-  - component: {fileID: 1450386229}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -1218,21 +1250,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1450386229
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1450386226}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07c7551f8e1cbd2408d0a939bd26798d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inputActions: {fileID: -944628639613478452, guid: b55fb176813d48f4380b77e22f9e0a7f, type: 3}
-  eventSystem: {fileID: 1044698287}
-  uiInputModule: {fileID: 1044698286}
 --- !u!1 &1487248196
 GameObject:
   m_ObjectHideFlags: 0
