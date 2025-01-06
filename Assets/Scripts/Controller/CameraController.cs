@@ -4,6 +4,7 @@ using UnityEngine;
 using Cinemachine;
 using UnityEditor;
 using System;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -21,13 +22,13 @@ public class CameraController : Singleton<CameraController>
 
     //[SerializeField]
     //private float distanceFrom = 5.0f;
-    //[SerializeField]
-    //private LayerMask _hitMask;
+    [SerializeField]
+    private LayerMask _hitMask;
 
 
     private CinemachineBrain _cinemachineBrain;
     private CinemachineVirtualCamera _cinemachineCam;
-    //private Ray _cameraRayOut;
+    private Ray _cameraRayOut;
     //private RaycastHit2D _closestHit;
 
     private Transform _cameraTransform;
@@ -46,20 +47,21 @@ public class CameraController : Singleton<CameraController>
     public Transform CameraTransform {
         get => mainCamera.transform;
     }
-    //public Ray CameraRay {
-    //    get => _cameraRayOut;
-    //}
-    
+    public Ray CameraRay
+    {
+        get => _cameraRayOut;
+    }
+
     //public RaycastHit2D ClosestHit
     //{
     //    get => _closestHit;
     //    private set => _closestHit = value;
     //}
-    //public LayerMask HitMask
-    //{
-    //    get => _hitMask;
-    //    set => _hitMask = value;
-    //}
+    public LayerMask HitMask
+    {
+        get => _hitMask;
+        set => _hitMask = value;
+    }
 
     //public event Action<GameObject> ClickAction;
     //public event Action<GameObject> PointerEnterAction;
@@ -115,104 +117,119 @@ public class CameraController : Singleton<CameraController>
 
         //_panCamera = false;
     }
-//    public void StartPanCamera()
-//    {
-//        InputController.Instance.MouseMove += PanCamera;
-//        _panCamera = true;
-//    }
-//    public void StopPanCamera()
-//    {
-//        InputController.Instance.MouseMove -= PanCamera;
-//        _panCamera = false;
-//    }
-//    public void PanCamera(Vector2 mouseDelta)
-//    {
+    //    public void StartPanCamera()
+    //    {
+    //        InputController.Instance.MouseMove += PanCamera;
+    //        _panCamera = true;
+    //    }
+    //    public void StopPanCamera()
+    //    {
+    //        InputController.Instance.MouseMove -= PanCamera;
+    //        _panCamera = false;
+    //    }
+    //    public void PanCamera(Vector2 mouseDelta)
+    //    {
 
-//    }
-//    public void Hover(Vector2 screenPos)
-//    {
-//        Debug.Log("Hover Camera");
-//        //_cameraUIRayOut = MainCamera.WorldToViewportPoint()
-//        _cameraRayOut = MainCamera.ScreenPointToRay(screenPos);
-//        RaycastHit2D hit = SetHit(_cameraRayOut);
-//        if (!hit.transform)
-//        {
-//            if (_closestHit.transform) {
-//                PointerEnterAction?.Invoke(null);
-//                PointerExitAction?.Invoke(_closestHit.transform.gameObject);
-//                _closestHit = hit;
-//            }
-//            return;
-//        }
-//        if (_closestHit.transform && (hit.transform.gameObject.Equals(_closestHit.transform.gameObject) || _closestHit.transform.gameObject.layer == LayerMask.GetMask("UI")))
-//        {
-//            return;
-//        }
-//        PointerEnterAction?.Invoke(hit.transform.gameObject);
-//        if (_closestHit.transform)
-//        {
-//            PointerExitAction?.Invoke(_closestHit.transform.gameObject);
-//        }
-//        _closestHit = hit;
-//    }
+    //    }
+    public PointerEventData Raycast(Vector2 screenPos)
+    {
+        PointerEventData eventData = new(EventSystem.current)
+        {
+            position = screenPos
+        };
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventData, results);
 
-//    private RaycastHit2D SetHit(Ray ray)
-//    {
-//        //GraphicRaycaster raycaster;
-//        //raycaster.Raycast();
-//        RaycastHit2D[] cameraRayHits = Physics2D.RaycastAll(ray.origin, ray.direction, Mathf.Infinity, HitMask.value);
-//        float closestDistance = Mathf.Infinity;
-//        RaycastHit2D hit = new();
-//        string test = "";
-//        int x = 1;
+        bool ui = results.Where(r => r.gameObject.layer == LayerMask.NameToLayer("UI")).Count() > 0;
 
-//        float ray_z = ray.origin.z;
-//        foreach (RaycastHit2D cameraRayHit in cameraRayHits)
-//        {
-//            Transform rayTransform = cameraRayHit.transform;
-//            float angle = Vector3.Angle(ray.direction, rayTransform.up);
-//            float dot = Vector3.Dot(ray.direction, rayTransform.up);
+        if (ui)
+        {
+            return null;
+        }
 
-//            float cameraRay_z = cameraRayHit.transform.position.z;
-//            float cameraRayDist = Math.Abs(cameraRay_z - ray_z);
+        _cameraRayOut = MainCamera.ScreenPointToRay(screenPos);
+        GameObject hit = GetClosest(results);
+        eventData.position = _cameraRayOut.origin;
+        eventData.pointerClick = hit;
+        return eventData;
+    }
 
-//            test += (x + ". " + cameraRayHit.transform.gameObject.name + "; Distance: " + cameraRayHit.distance + "; Dot: " + dot + " ||| ");
-//            x++;
-//            if (cameraRayDist < closestDistance && cameraRayDist > mainCamera.nearClipPlane)
-//            {
-//                hit = cameraRayHit;
-//                closestDistance = cameraRayDist;
-//            }
-//        }
-//        //Debug.Log(test);
-//        return hit;
-//    }
+    private GameObject GetHitObject(Ray ray)
+    {
+        RaycastHit2D[] cameraRayHits = Physics2D.RaycastAll(ray.origin, ray.direction, Mathf.Infinity, HitMask.value);
+        float closestDistance = Mathf.Infinity;
+        GameObject hit = new();
+        string test = "";
+        int x = 1;
 
-//    public void ScreenClick()
-//    {
-//        if (_closestHit.Equals(new RaycastHit2D()))
-//        {
-//            ClickAction?.Invoke(null);
-//            Debug.Log($"Click gameobject: null");
-//            return;
-//        }
-//        GameObject hitGO = _closestHit.transform.gameObject;
-//        ClickAction?.Invoke(hitGO);
+        float ray_z = ray.origin.z;
+        foreach (RaycastHit2D cameraRayHit in cameraRayHits)
+        {
+            Transform rayTransform = cameraRayHit.transform;
+            float angle = Vector3.Angle(ray.direction, rayTransform.up);
+            float dot = Vector3.Dot(ray.direction, rayTransform.up);
 
-//        Debug.Log(hitGO);
-//    }
+            float cameraRay_z = cameraRayHit.transform.position.z;
+            float cameraRayDist = Math.Abs(cameraRay_z - ray_z);
 
-//    private void SeparateCameraObject()
-//    {
-//        transform.GetChild(0).parent = null;
-//    }
+            test += (x + ". " + cameraRayHit.transform.gameObject.name + "; Distance: " + cameraRayHit.distance + "; Dot: " + dot + " ||| ");
+            x++;
+            if (cameraRayDist < closestDistance && cameraRayDist > mainCamera.nearClipPlane)
+            {
+                hit = cameraRayHit.transform.gameObject;
+                closestDistance = cameraRayDist;
+            }
+        }
+        //Debug.Log(test);
+        return hit;
+    }
 
-//    public void ChangePosition(Vector3 selectedObject)
-//    {
-//        _currentPos = selectedObject;
-//    }
+    private GameObject GetClosest(List<RaycastResult> results)
+    {
+        float closestDistance = Mathf.Infinity;
+        GameObject hit = null;
 
-//    public Vector3 GetCursorWorldPos() {
-//        return MainCamera.ScreenToWorldPoint(new Vector3(InputController.Instance.ScreenPosition.x, InputController.Instance.ScreenPosition.x, MainCamera.nearClipPlane));
-//    }
+        foreach (RaycastResult cameraRayHit in results)
+        {
+            float cameraRayDist = cameraRayHit.distance;
+
+            //test += (x + ". " + cameraRayHit.gameObject.name + "; Distance: " + cameraRayHit.distance + "; Dot: " + dot + " ||| ");
+            //x++;
+            if (cameraRayDist < closestDistance && cameraRayDist > mainCamera.nearClipPlane)
+            {
+                hit = cameraRayHit.gameObject;
+                closestDistance = cameraRayDist;
+            }
+        }
+
+        return hit;
+    }
+
+    //    public void ScreenClick()
+    //    {
+    //        if (_closestHit.Equals(new RaycastHit2D()))
+    //        {
+    //            ClickAction?.Invoke(null);
+    //            Debug.Log($"Click gameobject: null");
+    //            return;
+    //        }
+    //        GameObject hitGO = _closestHit.transform.gameObject;
+    //        ClickAction?.Invoke(hitGO);
+
+    //        Debug.Log(hitGO);
+    //    }
+
+    //    private void SeparateCameraObject()
+    //    {
+    //        transform.GetChild(0).parent = null;
+    //    }
+
+    //    public void ChangePosition(Vector3 selectedObject)
+    //    {
+    //        _currentPos = selectedObject;
+    //    }
+
+    //    public Vector3 GetCursorWorldPos() {
+    //        return MainCamera.ScreenToWorldPoint(new Vector3(InputController.Instance.ScreenPosition.x, InputController.Instance.ScreenPosition.x, MainCamera.nearClipPlane));
+    //    }
 }

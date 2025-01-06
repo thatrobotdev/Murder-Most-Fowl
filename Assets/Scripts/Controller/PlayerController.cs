@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class PlayerController : MonoBehaviour,
-    IPointerClickHandler
+public class PlayerController : MonoBehaviour
 {
     [SerializeField]
     private float m_Speed;
@@ -19,7 +18,7 @@ public class PlayerController : MonoBehaviour,
     void Start()
     {
         transform.position = ScreenManager.Instance.GetClosestFloorLocation(new Ray(transform.position, transform.forward));
-        //CameraController.Instance.ClickAction += Move;
+        InputController.Instance.Click += OnClick;
     }
 
     // Update is called once per frame
@@ -38,23 +37,16 @@ public class PlayerController : MonoBehaviour,
         }
     }
 
+    public void OnClick(PointerEventData eventData)
+    {
+        Move(new Ray(eventData.position, CameraController.Instance.CameraTransform.forward));
+    }
+
     public void Move(Ray ray) 
     {
         m_OldPos = transform.position;
         m_NewPos = ScreenManager.Instance.GetClosestFloorLocation(ray);
         m_ClickTime = Time.time;
         m_IsMoving = true;
-    }
-
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        GameObject gO = eventData.pointerClick;
-
-        if (gO && gO.layer == LayerMask.NameToLayer("UI"))
-        {
-            return;
-        }
-
-        Move(new Ray(eventData.position, CameraController.Instance.CameraTransform.forward));
     }
 }
