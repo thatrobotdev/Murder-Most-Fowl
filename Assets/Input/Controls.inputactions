@@ -390,7 +390,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "OpenClueBoard",
+                    "name": "Clueboard",
                     "type": "Button",
                     "id": "0160e675-e44e-4a00-a972-e985b170da39",
                     "expectedControlType": "",
@@ -473,7 +473,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
-                    "action": "OpenClueBoard",
+                    "action": "Clueboard",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

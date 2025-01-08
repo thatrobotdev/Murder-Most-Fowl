@@ -35,9 +35,7 @@ public class InputController : Singleton<InputController>
     //private InputAction _cancelAction;
 
     //private InputAction _moveAction;
-    private InputAction _openClueBoardAction;
-
-    //private InputAction _closeClueBoardAction;
+    private InputAction _clueBoardAction;
     //private InputAction _scrollClueBoardAction;
 
     //private Vector2 _mouseDelta;
@@ -65,7 +63,7 @@ public class InputController : Singleton<InputController>
     //public event Action<Vector2> Hover;
     //public event Action<Vector2> MouseMove;
 
-    public event Action<bool> ToggleClueBoard;
+    public event Action ToggleClueBoard;
     //public event Action<float> OnScrollCB;
 
     private void Awake()
@@ -77,8 +75,6 @@ public class InputController : Singleton<InputController>
 
         //Overall Controls
         _mainControls.Enable();
-        //_clueBoardControls.Disable();
-        //_currentActionMap = _mainControls;
     }
     //// Start is called before the first frame update
     void Start()
@@ -88,10 +84,10 @@ public class InputController : Singleton<InputController>
     }
 
     //// Update is called once per frame
-    //void Update()
-    //{
-    //    OnHover();
-    //}
+    void Update()
+    {
+        
+    }
 
     private void SetControls()
     {
@@ -108,24 +104,8 @@ public class InputController : Singleton<InputController>
     private void SetMainControls() {
         _mainControls = inputActions.FindActionMap("MainControls");
 
-    //    _deltaCursorAction = _mainControls.FindAction("DeltaCursor");
-    //    _cancelAction = _mainControls.FindAction("Cancel");
-    //    _moveAction = _mainControls.FindAction("Move");
-        _openClueBoardAction = _mainControls.FindAction("OpenClueBoard");
+        _clueBoardAction = _mainControls.FindAction("ClueBoard");
     }
-
-    //private void SetClueBoardControls() {
-    //    _clueBoardControls = inputActions.FindActionMap("ClueBoardControls");
-
-    //    _closeClueBoardAction = _clueBoardControls.FindAction("CloseClueBoard");
-    //    _scrollClueBoardAction = _clueBoardControls.FindAction("ScrollWheel");
-    //}
-    //private void InitializeClueBoardControls() {
-    //    _closeClueBoardAction.performed += OnCloseClueBoard;
-    //    _scrollClueBoardAction.performed += OnScrollPerformed;
-
-    //    ToggleClueBoard += ToggleControls;
-    //}
 
     private void SetUIControls()
     {
@@ -138,7 +118,7 @@ public class InputController : Singleton<InputController>
 
     private void InitializeMainControls()
     {
-        _openClueBoardAction.performed += OnOpenClueBoard;
+        _clueBoardAction.performed += OnToggleClueBoard;
     }
 
     private void InitializeUIControls()
@@ -200,6 +180,8 @@ public class InputController : Singleton<InputController>
         }
     }
 
+    //TODO
+    //Redo RightClick action if needed in line with LeftClick
     private void OnRightClickStarted(InputAction.CallbackContext context)
     {
         _rightClickTime = Time.time;
@@ -218,16 +200,10 @@ public class InputController : Singleton<InputController>
         RightClick?.Invoke();
         Debug.Log("Just a right click!!!");
     }
-    //private void OnHover()
-    //{
-    //    _screenPosition = _cursorAction.ReadValue<Vector2>();
-    //    Hover?.Invoke(_screenPosition);
-    //}
 
-
-    private void OnOpenClueBoard(InputAction.CallbackContext context)
+    private void OnToggleClueBoard(InputAction.CallbackContext context)
     {
-        ToggleClueBoard?.Invoke(true);
+        ToggleClueBoard?.Invoke();
     }
 
     //private void OnCloseClueBoard(InputAction.CallbackContext context) {

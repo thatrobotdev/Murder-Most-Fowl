@@ -9,13 +9,16 @@ using UnityEngine.InputSystem.UI;
 public class ClueBoardManager : Singleton<ClueBoardManager>
 {
     [SerializeField]
-    private Canvas m_Canvas;
+    private Canvas _canvas;
     [SerializeField]
-    private RectTransform m_BackgroundTransform;
+    private RectTransform _backgroundTransform;
 
-    private ClueObjectUI m_SelectedObj;
+    private ClueObjectUI _selectedObj;
 
-    private float zoom;
+    private float _zoom;
+    private bool _activated;
+
+
 
     private void Awake() {
         InitializeSingleton();
@@ -24,15 +27,17 @@ public class ClueBoardManager : Singleton<ClueBoardManager>
     // Start is called before the first frame update
     void Start()
     {
-        m_Canvas = GetComponent<Canvas>();
+        _canvas = GetComponent<Canvas>();
 
-        //InputController.Instance.ToggleClueBoard += ToggleCanvas;
+        InputController.Instance.ToggleClueBoard += ToggleClueBoard;
         //InputController.Instance.OnScrollCB += OnScroll;
 
-        zoom = 1.0f;
-        ToggleCanvas(false);
+        _zoom = 1.0f;
+        _activated = false;
 
-        m_SelectedObj = null;
+        _selectedObj = null;
+
+        CloseClueBoard();
 
         //m_EventSystem.scrollWheel.action.performed +=
         //m_EventSystem.
@@ -44,8 +49,27 @@ public class ClueBoardManager : Singleton<ClueBoardManager>
         
     }
 
-    private void ToggleCanvas(bool toggle) {
-        m_Canvas.enabled = toggle;
+    public void ToggleClueBoard() {
+        if (_activated)
+        {
+            CloseClueBoard();
+        }
+        else
+        {
+            OpenClueBoard();
+        }
+    }
+
+    private void OpenClueBoard()
+    {
+        _activated = true;
+        _canvas.enabled = _activated;
+    }
+
+    private void CloseClueBoard()
+    {
+        _activated = false;
+        _canvas.enabled = _activated;
     }
 
     void OnScroll(float scroll)
@@ -56,13 +80,13 @@ public class ClueBoardManager : Singleton<ClueBoardManager>
         } else if (scroll < 0) {
             e = -0.05f;
         }
-        m_BackgroundTransform.localScale += Vector3.one * e;
+        _backgroundTransform.localScale += Vector3.one * e;
 
-        if (m_BackgroundTransform.localScale.x < 1f) {
-            m_BackgroundTransform.localScale = Vector3.one;
+        if (_backgroundTransform.localScale.x < 1f) {
+            _backgroundTransform.localScale = Vector3.one;
         }
-        if (m_BackgroundTransform.localScale.x > 2f) {
-            m_BackgroundTransform.localScale = Vector3.one * 2f;
+        if (_backgroundTransform.localScale.x > 2f) {
+            _backgroundTransform.localScale = Vector3.one * 2f;
         }
     }
 }
