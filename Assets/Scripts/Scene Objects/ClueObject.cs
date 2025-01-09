@@ -2,9 +2,14 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class ClueObject : MonoBehaviour,
-    IPointerEnterHandler, IPointerExitHandler
+    IPointerEnterHandler, IPointerExitHandler,
+    IPointerClickHandler
 {
+    [SerializeField]
+    private GameObject _clueObjectUI;
+
     private SpriteRenderer _spriteRenderer;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -42,5 +47,13 @@ public class ClueObject : MonoBehaviour,
     {
         Debug.Log("Pointer Exit!");
         _spriteRenderer.color = Color.green;
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        Debug.Log("Click the clue!");
+        Instantiate(_clueObjectUI);
+
+        gameObject.SetActive(false);
     }
 }

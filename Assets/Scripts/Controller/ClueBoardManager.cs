@@ -8,16 +8,31 @@ using UnityEngine.InputSystem.UI;
 
 public class ClueBoardManager : Singleton<ClueBoardManager>
 {
+    [Header("Transforms")]
     [SerializeField]
     private Canvas _canvas;
     [SerializeField]
-    private RectTransform _backgroundTransform;
+    private RectTransform _boardTransform;
+    [SerializeField]
+    private RectTransform _holdingPinTransform;
+
+    [Header("Sub-objects")]
+    [SerializeField]
+    private ClueBoardBin _boardBin;
 
     private ClueObjectUI _selectedObj;
 
     private float _zoom;
     private bool _activated;
 
+    public RectTransform BoardTransform
+    {
+        get => _boardTransform;
+    }
+    public RectTransform HoldingPinTransform
+    {
+        get => _holdingPinTransform;
+    }
 
 
     private void Awake() {
@@ -80,13 +95,18 @@ public class ClueBoardManager : Singleton<ClueBoardManager>
         } else if (scroll < 0) {
             e = -0.05f;
         }
-        _backgroundTransform.localScale += Vector3.one * e;
+        _boardTransform.localScale += Vector3.one * e;
 
-        if (_backgroundTransform.localScale.x < 1f) {
-            _backgroundTransform.localScale = Vector3.one;
+        if (_boardTransform.localScale.x < 1f) {
+            _boardTransform.localScale = Vector3.one;
         }
-        if (_backgroundTransform.localScale.x > 2f) {
-            _backgroundTransform.localScale = Vector3.one * 2f;
+        if (_boardTransform.localScale.x > 2f) {
+            _boardTransform.localScale = Vector3.one * 2f;
         }
+    }
+
+    public void AddToBin(ClueObjectUI clueObjectUI)
+    {
+        _boardBin.AddToBin(clueObjectUI);
     }
 }
