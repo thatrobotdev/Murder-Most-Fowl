@@ -12,9 +12,13 @@ public class Floor : MonoBehaviour
     private Spline _floorSpline;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         _floorSpline = _floorSplineContainer.Spline;
+    }
+    void Start()
+    {
+        
     }
 
     // Update is called once per frame

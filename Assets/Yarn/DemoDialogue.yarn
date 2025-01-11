@@ -1,21 +1,92 @@
-﻿title: Start
+title: Start
 tags:
 ---
-Narrator: Oh, hello!
-    -> Hi, where am I?
-        Narrator: You're in Unity!
-            -> Oh.
-                <<jump Oh>>
-            -> How did I get here?
-                <<jump Unity>>
+<<declare $gooseIntroduced = false>>
+<<declare $noticedSandwich = false>>
+<<declare $hasHandkerchief = false>>
+<<declare $inspectHandkerchief = false>>
+
+<<ChangeLeftCharacter Nancy>>
+<<ChangeRightCharacter>>
+Nancy: It's only noon and it's already been a long day. 
+Nancy: *sigh*
+Nancy: I'm just excited that it's my lunch break.
 ===
 
-title: Oh
+title: Goose
 ---
-Narrator: Yeah, fun, right?
+<<ChangeRightCharacter Goose>>
+
+<<if $gooseIntroduced is false>>
+	<<jump GooseIntroduction>>
+<<else>>
+	<<jump GooseIrritated>>
+<<endif>>
 ===
 
-title: Unity
+title: GooseIntroduction
 ---
-Narrator: Someone read the Beginner's Guide!
+<<set $gooseIntroduced to true>>
+Nancy: Hello Mr. Gander.
+Chase: Hello Nancy.
+===
+
+title: GooseIrritated
+---
+Chase: Get on with it already.
+Nancy: Ok ok...
+===
+
+title: GooseSuspicion
+---
+<<ChangeRightCharacter Goose>>
+-> Talk
+	Nancy: Mr. Gander, did you eat my sandwich?
+	Chase: There is nothing so foul as eating someone else's lunch. I demand you take back that accusation.
+	Nancy: I'll find proof. It's around here somewhere.
+-> Present Evidence <<if $inspectHandkerchief>>
+	-> Present Handkerchief
+		<<jump GooseAccusation>>
+===
+
+title: GooseAccusation
+---
+Nancy: Tell me Chase, have you ever seen this Handkerchief before?
+Chase: Never. It looks far too dirty for one I would own.
+Nancy: Dirtied by a jelly stain, in fact.
+Nancy: I also noticed some initials in the corner… CGW… Does that not fit your name? 
+Chase: Could be anyone.
+Nancy: Chase - Gander - Wilde. Quite the coincidence isn't it?
+Chase: If it was mine, what of it?
+Nancy: Chase Wilde Gander, did you eat my sandwich?
+Chase: …
+Nancy: What do you have to say for yourself?
+Chase: It was delicious and I'd do it again.
+===
+
+title: MissingSandwich
+---
+<<ChangeRightCharacter>>
+<<if $noticedSandwich is false>>
+	Nancy: My sandwich!
+	Nancy: My peanut butter and jelly sandwich!
+	Nancy: Who would do such a thing?
+	<<set $noticedSandwich to true>>
+	<<set_node Goose GooseSuspicion>>
+<<else>>
+	Nancy: My sandwich...
+<<endif>>
+===
+
+title: FoundHandkerchief
+---
+<<ChangeRightCharacter>>
+<<set $hasHandkerchief to true>>
+Nancy: Aha!
+Nancy: A handkerchief!
+	-> Inspect
+		<<set $inspectHandkerchief to true>>
+		Nancy: There are jelly stains on the handkerchief! The perpetrator must have used this!
+		Nancy: And the initials: CGW.
+		Nancy: Those seem very familiar...
 ===

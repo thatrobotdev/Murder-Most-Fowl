@@ -13,6 +13,8 @@ public class ClueBoardManager : Singleton<ClueBoardManager>,
     [Header("Transforms")]
     [SerializeField]
     private Canvas _canvas;
+    [SerializeField] 
+    private GameObject _board;
     [SerializeField]
     private RectTransform _boardTransform;
     [SerializeField]
@@ -43,7 +45,10 @@ public class ClueBoardManager : Singleton<ClueBoardManager>,
     private readonly Vector2 DEFAULT_PIVOT = new(0.5f, 0.5f);
 
 
-
+    public Canvas ClueBoardCanvas
+    {
+        get => _canvas;
+    }
     public RectTransform BoardTransform
     {
         get => _boardTransform;
@@ -99,13 +104,13 @@ public class ClueBoardManager : Singleton<ClueBoardManager>,
     private void OpenClueBoard()
     {
         _activated = true;
-        _canvas.enabled = _activated;
+        _board.SetActive(_activated);
     }
 
     private void CloseClueBoard()
     {
         _activated = false;
-        _canvas.enabled = _activated;
+        _board.SetActive(_activated);
     }
     public void OnScroll(PointerEventData eventData)
     {

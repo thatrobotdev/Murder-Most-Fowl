@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Yarn.Unity;
 
 public class ClueObject : MonoBehaviour,
     IPointerEnterHandler, IPointerExitHandler,
@@ -8,7 +9,10 @@ public class ClueObject : MonoBehaviour,
     [SerializeField]
     private GameObject _clueObjectUI;
 
+    [SerializeField] private bool _disappearOnClick = true;
+
     private SpriteRenderer _spriteRenderer;
+    private bool _found;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -40,20 +44,29 @@ public class ClueObject : MonoBehaviour,
     public void OnPointerEnter(PointerEventData eventData)
     {
         Debug.Log("Pointer Enter!");
-        _spriteRenderer.color = new Color32(166, 207, 212, 255);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         Debug.Log("Pointer Exit!");
-        _spriteRenderer.color = Color.white;
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
         Debug.Log("Click the clue!");
-        Instantiate(_clueObjectUI);
+        if (!_found)
+        {
+            Instantiate(_clueObjectUI);
+        }
+        if (_disappearOnClick)
+        {
+            Collect();
+        }
+    }
 
+    [YarnCommand("collect_clue")]
+    public void Collect()
+    {
         gameObject.SetActive(false);
     }
 }
