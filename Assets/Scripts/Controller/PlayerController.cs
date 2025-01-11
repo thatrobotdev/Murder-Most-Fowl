@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using UnityEditor.Tilemaps;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Yarn.Unity;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField]
+    private SpriteRenderer _characterSprite;
     [SerializeField]
     private float m_Speed;
 
@@ -44,15 +47,16 @@ public class PlayerController : MonoBehaviour
         Move(new Ray(eventData.position, CameraController.Instance.CameraTransform.forward));
     }
 
+    [YarnCommand("move")]
     public void Move(Ray ray) 
     {
         m_OldPos = transform.position;
         m_NewPos = ScreenManager.Instance.GetClosestFloorLocation(ray);
 
         if (m_OldPos.x > m_NewPos.x) {
-            GetComponent<SpriteRenderer>().flipX = true;
+            _characterSprite.flipX = true;
         } else {
-            GetComponent<SpriteRenderer>().flipX = false;
+            _characterSprite.flipX = false;
         }
 
         m_ClickTime = Time.time;

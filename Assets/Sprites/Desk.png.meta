@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 639164ce5e98e72469486a7ca19de432
+guid: bad3d87055b94b44c925718f97e6a171
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2489639429420252660
-    second: Stained_Handkerchief_0
+      213: 7872722273471896646
+    second: Desk_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Stained_Handkerchief_0
+      name: Desk_0
       rect:
         serializedVersion: 2
-        x: 206
-        y: 179
-        width: 707
-        height: 817
+        x: 125
+        y: 121
+        width: 940
+        height: 418
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4fd7661ded9fc8220800000000000000
-      internalID: 2489639429420252660
+      spriteID: 64c199d3237814d60800000000000000
+      internalID: 7872722273471896646
       vertices: []
       indices: 
       edges: []
@@ -134,8 +134,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      Stained_Handkerchief_0: 2489639429420252660
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
