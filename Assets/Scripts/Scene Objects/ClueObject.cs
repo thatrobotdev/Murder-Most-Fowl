@@ -40,13 +40,13 @@ public class ClueObject : MonoBehaviour,
     public void OnPointerEnter(PointerEventData eventData)
     {
         Debug.Log("Pointer Enter!");
-        _spriteRenderer.color = Color.red;
+        _spriteRenderer.color = new Color32(166, 207, 212, 255);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         Debug.Log("Pointer Exit!");
-        _spriteRenderer.color = Color.green;
+        _spriteRenderer.color = Color.white;
     }
 
     public void OnPointerClick(PointerEventData eventData)
