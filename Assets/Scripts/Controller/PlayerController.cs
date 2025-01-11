@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Tilemaps;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -29,6 +30,7 @@ public class PlayerController : MonoBehaviour
             if ((Time.time - m_ClickTime) / 5f < 1)
             {
                 transform.position = Vector2.Lerp(m_OldPos, m_NewPos, (Time.time - m_ClickTime) / m_MoveTime);
+              
             }
             else
             {
@@ -46,6 +48,13 @@ public class PlayerController : MonoBehaviour
     {
         m_OldPos = transform.position;
         m_NewPos = ScreenManager.Instance.GetClosestFloorLocation(ray);
+
+        if (m_OldPos.x > m_NewPos.x) {
+            GetComponent<SpriteRenderer>().flipX = true;
+        } else {
+            GetComponent<SpriteRenderer>().flipX = false;
+        }
+
         m_ClickTime = Time.time;
         m_IsMoving = true;
     }
