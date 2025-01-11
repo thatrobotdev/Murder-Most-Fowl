@@ -7,7 +7,7 @@ public class ClueBoardBin : MonoBehaviour,
 {
     private List<ClueObjectUI> _clueList;
 
-    private Transform _draggedClue;
+    private ClueObjectUI _draggedClue;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -33,15 +33,21 @@ public class ClueBoardBin : MonoBehaviour,
         _clueList.RemoveAt(0);
 
         clueObject.gameObject.transform.position = eventData.position;
+        //RectTransform boardTransform = ClueBoardManager.Instance.BoardTransform;
         clueObject.gameObject.transform.parent = ClueBoardManager.Instance.BoardTransform;
-        _draggedClue = clueObject.gameObject.transform;
+        clueObject.gameObject.transform.localScale = Vector3.one;
+        eventData.pressPosition = eventData.position;
+        _draggedClue = clueObject;
+
+        _draggedClue.OnBeginDrag(eventData);
     }
     public void OnDrag(PointerEventData eventData)
     {
-        _draggedClue.position = eventData.position;
+        _draggedClue?.OnDrag(eventData);
     }
     public void OnEndDrag(PointerEventData eventData)
     {
+        _draggedClue?.OnEndDrag(eventData);
         _draggedClue = null;
     }
 

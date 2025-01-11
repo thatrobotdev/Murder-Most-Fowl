@@ -4,19 +4,26 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class ClueObjectUI : MonoBehaviour, 
-    IDragHandler, IBeginDragHandler, IEndDragHandler
+    IDragHandler, IBeginDragHandler, IEndDragHandler,
+    IScrollHandler, IPointerDownHandler, IPointerUpHandler
 {
-    //[SerializeField]
-    //private Outline _outline;
+    [SerializeField]
+    private static readonly float _sizeMin = .25f;
+    [SerializeField]
+    private static readonly float _sizeMax = 1.5f;
 
     private Vector2 _offset;
+    private bool _mouseDown;
+
+    
 
     // Start is called before the first frame update
     void Start()
     {
         transform.parent = ClueBoardManager.Instance.HoldingPinTransform;
+        transform.localPosition = Vector3.zero;
         ClueBoardManager.Instance.AddToBin(this);
-        //CoroutineUtils.ExecuteAfterEndOfFrame(StartDelay, this);
+        _mouseDown = false;
     }
 
     void StartDelay()
@@ -28,10 +35,6 @@ public class ClueObjectUI : MonoBehaviour,
     void Update()
     {
         
-    }
-
-    public void Select(bool select) {
-        //_outline.enabled = select;
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -49,5 +52,29 @@ public class ClueObjectUI : MonoBehaviour,
     public void OnEndDrag(PointerEventData eventData)
     {
         _offset = Vector2.zero;
+    }
+
+    public void OnScroll(PointerEventData eventData)
+    {
+        //TODO
+        //Get resizing working for clueobjects
+        if (_mouseDown)
+        {
+            Debug.Log("Yippee!");
+        }
+        else
+        {
+            ClueBoardManager.Instance.OnScroll(eventData);
+        }
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        _mouseDown = true;
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        _mouseDown = false;
     }
 }

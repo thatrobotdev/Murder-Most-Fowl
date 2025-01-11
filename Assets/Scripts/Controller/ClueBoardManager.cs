@@ -5,8 +5,10 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.InputSystem.UI;
+using UnityEngine.UIElements;
 
-public class ClueBoardManager : Singleton<ClueBoardManager>
+public class ClueBoardManager : Singleton<ClueBoardManager>,
+    IScrollHandler, IDragHandler
 {
     [Header("Transforms")]
     [SerializeField]
@@ -15,15 +17,32 @@ public class ClueBoardManager : Singleton<ClueBoardManager>
     private RectTransform _boardTransform;
     [SerializeField]
     private RectTransform _holdingPinTransform;
+    [SerializeField]
+    private RectTransform _maskBoardTransform;
 
     [Header("Sub-objects")]
     [SerializeField]
     private ClueBoardBin _boardBin;
 
+    [Header("Input")]
+    [SerializeField]
+    private float _zoomSpeed = 0.05f;
+
+    [SerializeField] private float _zoomOutLimit = 0.328f;
+    [SerializeField] private float _zoomInLimit = 1.25f;
+
     private ClueObjectUI _selectedObj;
+
+    private Vector2 _boardCenter;
+    private Rect _boardBoundsRect;
 
     private float _zoom;
     private bool _activated;
+    private bool _scrollEnabled;
+
+    private readonly Vector2 DEFAULT_PIVOT = new(0.5f, 0.5f);
+
+
 
     public RectTransform BoardTransform
     {
@@ -45,17 +64,19 @@ public class ClueBoardManager : Singleton<ClueBoardManager>
         _canvas = GetComponent<Canvas>();
 
         InputController.Instance.ToggleClueBoard += ToggleClueBoard;
-        //InputController.Instance.OnScrollCB += OnScroll;
+
+        _boardCenter = _boardTransform.parent.position;
 
         _zoom = 1.0f;
         _activated = false;
+        _scrollEnabled = true;
 
         _selectedObj = null;
 
         CloseClueBoard();
 
-        //m_EventSystem.scrollWheel.action.performed +=
-        //m_EventSystem.
+        RectTransform mask = _boardTransform.parent as RectTransform;
+        _boardBoundsRect = mask.rect;
     }
 
     // Update is called once per frame
@@ -86,27 +107,101 @@ public class ClueBoardManager : Singleton<ClueBoardManager>
         _activated = false;
         _canvas.enabled = _activated;
     }
-
-    void OnScroll(float scroll)
+    public void OnScroll(PointerEventData eventData)
     {
-        float e = 0f;
-        if (scroll > 0) {
-            e = 0.05f;
-        } else if (scroll < 0) {
-            e = -0.05f;
+        if (eventData.dragging)
+        {
+            return;
         }
-        _boardTransform.localScale += Vector3.one * e;
 
-        if (_boardTransform.localScale.x < 1f) {
-            _boardTransform.localScale = Vector3.one;
+        float scroll = eventData.scrollDelta.y;
+        float e = 0f;
+        if (scroll > 0)
+        {
+            e = _zoomSpeed;
         }
-        if (_boardTransform.localScale.x > 2f) {
-            _boardTransform.localScale = Vector3.one * 2f;
+        else if (scroll < 0)
+        {
+            e = -_zoomSpeed;
         }
+
+        DynamicZoom(eventData, e);
+        ClampBoard();
+    }
+
+    private void DynamicZoom(PointerEventData eventData, float zoom)
+    {
+        Vector2 newCenter = _boardCenter + _boardTransform.anchoredPosition;
+        float scale = _boardTransform.localScale.x;
+        Vector2 offset = eventData.position - newCenter;
+        Vector2 pivot = offset;
+        pivot.x *= 1.0f / _boardTransform.sizeDelta.x;
+        pivot.y *= 1.0f / _boardTransform.sizeDelta.y;
+
+        Debug.Log(offset);
+
+        Vector3 tempScale = _boardTransform.localScale + (Vector3.one * zoom);
+        if (tempScale.x > _zoomOutLimit && tempScale.x < _zoomInLimit)
+        {
+            _boardTransform.pivot += pivot;
+            _boardTransform.anchoredPosition += (offset * scale);
+        }
+        if (tempScale.x < _zoomOutLimit)
+        {
+            tempScale = Vector3.one * _zoomOutLimit;
+        }
+        if (tempScale.x > _zoomInLimit)
+        {
+            tempScale = Vector3.one * _zoomInLimit;
+        }
+        _boardTransform.localScale = tempScale;
+    }
+
+    private void ClampBoard()
+    {
+        float scale = _boardTransform.localScale.x;
+        Vector2 pivot = new(_boardTransform.sizeDelta.x * _boardTransform.pivot.x, _boardTransform.sizeDelta.y * _boardTransform.pivot.y);
+        Vector2 pivotPos = ((_boardTransform.offsetMin + _boardCenter)) + (pivot);
+        Vector2 bottomLeft = (_boardTransform.offsetMin * scale) + (pivotPos - (_boardTransform.anchoredPosition * scale));
+        Vector2 topRight = (_boardTransform.offsetMax * scale) + (pivotPos - (_boardTransform.anchoredPosition * scale));
+        Debug.DrawLine(bottomLeft, topRight, Color.black);
+        Debug.DrawLine(_boardBoundsRect.min + _boardCenter, _boardBoundsRect.max + _boardCenter);
+
+        Vector2 boardMin = _boardBoundsRect.min + _boardCenter;
+        Vector2 boardMax = _boardBoundsRect.max + _boardCenter;
+
+        Vector2 newAnchorPos = _boardTransform.anchoredPosition;
+
+        //Y-checking
+        if (bottomLeft.y > boardMin.y)
+        {
+            newAnchorPos.y += (boardMin.y - bottomLeft.y);
+        } else if (topRight.y < boardMax.y)
+        {
+            newAnchorPos.y += (boardMax.y - topRight.y);
+        }
+
+        //X-checking
+        if (bottomLeft.x > boardMin.x)
+        {
+            newAnchorPos.x += (boardMin.x - bottomLeft.x);
+        }
+        else if (topRight.x < boardMax.x)
+        {
+            newAnchorPos.x += (boardMax.x - topRight.x);
+        }
+
+        _boardTransform.anchoredPosition = newAnchorPos;
     }
 
     public void AddToBin(ClueObjectUI clueObjectUI)
     {
         _boardBin.AddToBin(clueObjectUI);
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        _boardTransform.anchoredPosition += eventData.delta;
+        ClampBoard();
     }
 }
