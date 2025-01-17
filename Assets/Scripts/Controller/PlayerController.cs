@@ -21,7 +21,10 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        transform.position = ScreenManager.Instance.GetClosestFloorLocation(new Ray(transform.position, transform.forward));
+        // TODO
+        // Uncomment when ClosestFloorLocation is fixed!
+
+        //transform.position = ScreenManager.Instance.GetClosestFloorLocation(new Ray(transform.position, transform.forward));
         InputController.Instance.Click += OnClick;
     }
 

@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: ae1771af9c7fe2f4c8a196e01f04a5d0
+guid: e4147ecb761f3ab46ba9a473f2142dcc
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4743966413976176986
-    second: goose_0
+      213: -8613534832017134275
+    second: Demo Background_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: goose_0
+      name: Demo Background_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 818
-        height: 1023
+        width: 3248
+        height: 2059
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a590f63a154f5d140800000000000000
-      internalID: 4743966413976176986
+      spriteID: d3d2a2de4b3967880800000000000000
+      internalID: -8613534832017134275
       vertices: []
       indices: 
       edges: []
@@ -134,8 +134,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      goose_0: 4743966413976176986
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

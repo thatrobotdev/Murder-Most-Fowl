@@ -53,13 +53,13 @@ public class DialogueHelper : Singleton<DialogueHelper>
 
     public void StartDialogue()
     {
-        ClueBoardManager.Instance.ClueBoardCanvas.enabled = false;
+        ClueBoardManager.Instance.LockToggle();
         _background.SetActive(true);
     }
 
     public void EndDialogue()
     {
-        ClueBoardManager.Instance.ClueBoardCanvas.enabled = true;
+        ClueBoardManager.Instance.UnlockToggle();
         _background.SetActive(false);
     }
 

@@ -47,6 +47,8 @@ public class ClueObjectUI : MonoBehaviour,
         Vector2 mousePos = eventData.pressPosition;
         Vector2 uiPos = transform.position;
         _offset = uiPos - mousePos;
+
+        transform.parent = ClueBoardManager.Instance.BoardTransform;
     }
 
     public void OnEndDrag(PointerEventData eventData)
@@ -56,8 +58,8 @@ public class ClueObjectUI : MonoBehaviour,
 
     public void OnScroll(PointerEventData eventData)
     {
-        //TODO
-        //Get resizing working for clueobjects
+        // TODO
+        // Get resizing working for clueobjects
         if (_mouseDown)
         {
             Debug.Log("Yippee!");

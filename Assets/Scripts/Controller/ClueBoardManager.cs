@@ -19,12 +19,12 @@ public class ClueBoardManager : Singleton<ClueBoardManager>,
     private RectTransform _boardTransform;
     [SerializeField]
     private RectTransform _holdingPinTransform;
-    [SerializeField]
-    private RectTransform _maskBoardTransform;
 
     [Header("Sub-objects")]
     [SerializeField]
     private ClueBoardBin _boardBin;
+    [SerializeField]
+    private GameObject _toggleButton;
 
     [Header("Input")]
     [SerializeField]
@@ -33,17 +33,17 @@ public class ClueBoardManager : Singleton<ClueBoardManager>,
     [SerializeField] private float _zoomOutLimit = 0.328f;
     [SerializeField] private float _zoomInLimit = 1.25f;
 
+    private Animator _animator;
     private ClueObjectUI _selectedObj;
 
     private Vector2 _boardCenter;
     private Rect _boardBoundsRect;
 
-    private float _zoom;
+    private bool _toggleLock;
     private bool _activated;
     private bool _scrollEnabled;
 
     private readonly Vector2 DEFAULT_PIVOT = new(0.5f, 0.5f);
-
 
     public Canvas ClueBoardCanvas
     {
@@ -61,6 +61,7 @@ public class ClueBoardManager : Singleton<ClueBoardManager>,
 
     private void Awake() {
         InitializeSingleton();
+        _toggleLock = false;
     }
 
     // Start is called before the first frame update
@@ -72,13 +73,11 @@ public class ClueBoardManager : Singleton<ClueBoardManager>,
 
         _boardCenter = _boardTransform.parent.position;
 
-        _zoom = 1.0f;
         _activated = false;
         _scrollEnabled = true;
 
         _selectedObj = null;
-
-        CloseClueBoard();
+        _animator = _board.GetComponent<Animator>();
 
         RectTransform mask = _boardTransform.parent as RectTransform;
         _boardBoundsRect = mask.rect;
@@ -91,6 +90,11 @@ public class ClueBoardManager : Singleton<ClueBoardManager>,
     }
 
     public void ToggleClueBoard() {
+        if (_toggleLock)
+        {
+            return;
+        }
+
         if (_activated)
         {
             CloseClueBoard();
@@ -103,15 +107,29 @@ public class ClueBoardManager : Singleton<ClueBoardManager>,
 
     private void OpenClueBoard()
     {
+        _boardBin.InitBin();
         _activated = true;
-        _board.SetActive(_activated);
+        _animator.Play("Reveal");
     }
 
     private void CloseClueBoard()
     {
         _activated = false;
-        _board.SetActive(_activated);
+        _animator.Play("Hide");
     }
+
+    public void LockToggle()
+    {
+        _toggleLock = true;
+        _toggleButton.SetActive(false);
+    }
+
+    public void UnlockToggle()
+    {
+        _toggleLock = false;
+        _toggleButton.SetActive(true);
+    }
+
     public void OnScroll(PointerEventData eventData)
     {
         if (eventData.dragging)

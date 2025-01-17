@@ -27,6 +27,8 @@ public class Floor : MonoBehaviour
         
     }
 
+    // TODO
+    // Doesn't actually work correctly
     public Vector2 GetClosestFloorLocation(Ray clickRay) {
         Vector2 closestPoint = Vector2.positiveInfinity;
         SplineUtility.GetNearestPoint(_floorSpline, clickRay, out float3 nearestPoint, out float t);

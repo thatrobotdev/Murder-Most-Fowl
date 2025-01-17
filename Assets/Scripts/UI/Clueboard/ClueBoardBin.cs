@@ -3,11 +3,16 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class ClueBoardBin : MonoBehaviour,
-    IDragHandler, IBeginDragHandler, IEndDragHandler
+    IDragHandler, IBeginDragHandler, IEndDragHandler,
+    IPointerClickHandler
 {
+    [SerializeField] private RectTransform _menuTransform;
+    [SerializeField] private Animator _animator;
+
     private List<ClueObjectUI> _clueList;
 
     private ClueObjectUI _draggedClue;
+    private bool _showMenu;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -54,5 +59,40 @@ public class ClueBoardBin : MonoBehaviour,
     public void AddToBin(ClueObjectUI clueObject)
     {
         _clueList.Add(clueObject);
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        ToggleBin();
+    }
+
+    public void InitBin()
+    {
+        _menuTransform.sizeDelta = Vector2.zero;
+        _menuTransform.anchoredPosition = Vector2.zero;
+    }
+
+    private void ToggleBin()
+    {
+        if (_showMenu)
+        {
+            CloseBin();
+        }
+        else
+        {
+            OpenBin();
+        }
+    }
+
+    private void OpenBin()
+    {
+        _showMenu = true;
+        _animator.Play("Reveal");
+    }
+
+    private void CloseBin()
+    {
+        _showMenu = false;
+        _animator.Play("Hide");
     }
 }
