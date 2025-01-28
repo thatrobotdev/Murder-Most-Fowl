@@ -10,6 +10,12 @@ namespace Clues
         private Vector2 _offset;
         private bool _mouseDown;
 
+        public GameObject _sprite;
+
+        private static readonly float _sizeMin = .5f;
+        private static readonly float _sizeMax = 2.5f;
+        Vector3 _scaleChange;
+
         // Start is called before the first frame update
         private void Start()
         {
@@ -18,6 +24,7 @@ namespace Clues
             transform.localScale = Vector3.one;
             ClueBoardManager.Instance.AddToBin(this);
             _mouseDown = false;
+            _scaleChange = new Vector3(0.2f, 0.2f, 0.2f);
         }
 
         // TODO: Never used. remove?
@@ -47,11 +54,15 @@ namespace Clues
 
         public void OnScroll(PointerEventData eventData)
         {
-            // TODO
-            // Get resizing working for ClueObjects
             if (_mouseDown)
             {
-                Debug.Log("Yippee!");
+                // Increases and decreases size of sprite
+                var w = Input.mouseScrollDelta.y;
+                if (w > 0 && _sizeMax > _sprite.transform.localScale.x) {
+                    _sprite.transform.localScale += _scaleChange;
+                } else if (w < 0 && _sizeMin < _sprite.transform.localScale.x) {
+                    _sprite.transform.localScale -= _scaleChange;
+                }
             }
             else
             {
