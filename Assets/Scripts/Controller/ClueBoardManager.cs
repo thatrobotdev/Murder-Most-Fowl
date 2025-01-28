@@ -21,6 +21,12 @@ public class ClueBoardManager : Singleton<ClueBoardManager>,
     [SerializeField]
     private RectTransform _holdingPinTransform;
 
+    [SerializeField] private RectTransform stringRenderers;
+    public RectTransform StringRenderers => stringRenderers;
+    
+    [SerializeField] private RectTransform clues;
+    public RectTransform Clues => clues;
+
     [Header("Sub-objects")]
     [SerializeField]
     private ClueBoardBin _boardBin;

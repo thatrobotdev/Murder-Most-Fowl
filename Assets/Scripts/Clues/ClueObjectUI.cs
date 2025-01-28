@@ -44,7 +44,7 @@ namespace Clues
             Vector2 uiPos = transform.position;
             _offset = uiPos - mousePos;
 
-            transform.parent = ClueBoardManager.Instance.BoardTransform;
+            transform.parent = ClueBoardManager.Instance.Clues;
         }
 
         public void OnEndDrag(PointerEventData eventData)
