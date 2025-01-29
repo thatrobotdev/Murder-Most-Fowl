@@ -1,50 +1,81 @@
 using System;
+using System.Collections.Generic;
+using Clues;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 // using namespace UI.Clueboard;
 
-public class Pin : MonoBehaviour, IDragHandler
+public class Pin : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDragHandler
 {
-    private Vector2 _offset;
+    private UILineRenderer _lineRenderer;
 
-    private Vector2 endPos;
+    private Pin _connected;
     
-    private UILineRenderer lineRenderer;
-
-    private Canvas canvas;
-
-    [SerializeField] private Transform positionedParent;
-
     private void Awake()
     {
-        lineRenderer = GetComponentInChildren<UILineRenderer>();
-        canvas = GetComponentInParent<Canvas>();
+        _lineRenderer = GetComponentInChildren<UILineRenderer>();
     }
+    
+    bool _isDragging;
 
     private bool _lrNeedSetParent = true;
     private void SetLineRendererParent()
     {
         if (!_lrNeedSetParent) return;
-        lineRenderer.rectTransform.SetParent(ClueBoardManager.Instance.StringRenderers);
+        _lineRenderer.rectTransform.SetParent(ClueBoardManager.Instance.StringRenderers);
         _lrNeedSetParent = false;
     }
 
-    public void OnDrag(PointerEventData eventData)
+    void Update()
     {
         SetLineRendererParent();
-        
-        // print(eventData.position + _offset);
-        lineRenderer.points[0] = Vector2.zero;
-        lineRenderer.points[1] = (eventData.position - (Vector2) transform.position) / canvas.scaleFactor;
-        
-        lineRenderer.SetVerticesDirty();
+        _lineRenderer.transform.position = transform.position;
+        if (!_isDragging && _connected != null)
+        {
+            SetLineRendererEnd(_connected.transform.position);
+        }
+    }
+
+    void SetLineRendererEnd(Vector2 endPos)
+    {
+        endPos = (endPos - (Vector2) transform.position) / ClueBoardManager.Instance.BoardTransform.localScale;
+        _lineRenderer.SetEndPoint(endPos);
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        Vector2 mousePos = eventData.pressPosition;
-        Vector2 uiPos = transform.position;
-        _offset = uiPos - mousePos;
+        _isDragging = true;
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        SetLineRendererEnd(eventData.position);
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        _isDragging = false;
+        
+        List<RaycastResult> raycastResults = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventData, raycastResults);
+
+        _connected = null;
+        
+        foreach (var raycastResult in raycastResults)
+        {
+            var pin = raycastResult.gameObject.GetComponent<Pin>();
+
+            if (pin != null)
+            {
+                _connected = pin;
+                break;
+            }
+        }
+
+        if (_connected == null)
+        {
+            _lineRenderer.SetEndPoint(Vector2.zero);
+        }
     }
 }

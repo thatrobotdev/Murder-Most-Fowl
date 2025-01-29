@@ -91,4 +91,10 @@ public class UILineRenderer : MaskableGraphic
     {
         return (float)(Mathf.Atan2(target.y - vertex.y, target.x - vertex.x) * (180 / Mathf.PI));
     }
+
+    public void SetEndPoint(Vector2 endPoint)
+    {
+        points[1] = endPoint;
+        SetVerticesDirty();
+    }
 }

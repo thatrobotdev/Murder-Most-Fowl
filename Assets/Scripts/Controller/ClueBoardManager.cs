@@ -168,7 +168,7 @@ public class ClueBoardManager : Singleton<ClueBoardManager>,
         pivot.x *= 1.0f / _boardTransform.sizeDelta.x;
         pivot.y *= 1.0f / _boardTransform.sizeDelta.y;
 
-        Debug.Log(offset);
+        // Debug.Log(offset);
 
         Vector3 tempScale = _boardTransform.localScale + (Vector3.one * zoom);
         if (tempScale.x > _zoomOutLimit && tempScale.x < _zoomInLimit)
