@@ -176,6 +176,7 @@ GameObject:
   - component: {fileID: 7661665735973739218}
   - component: {fileID: 5476916697314197403}
   - component: {fileID: 614971948982327822}
+  - component: {fileID: 1231394942797599851}
   m_Layer: 5
   m_Name: LineRenderer
   m_TagString: Untagged
@@ -235,6 +236,29 @@ MonoBehaviour:
   - {x: 0, y: 0}
   thickness: 10
   center: 0
+--- !u!114 &1231394942797599851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6922691249261674596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b31e407dcb1443ad9cb539f7c93a1bba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ropePointProvider:
+    startPoint: {x: 0, y: 0, z: 0}
+    midPoint: {x: 0, y: 0, z: 0}
+    endPoint: {x: 0, y: 0, z: 0}
+    linePoints: 10
+    stiffness: 350
+    damping: 15
+    ropeLength: 15
+    midPointWeight: 1
+    midPointPosition: 0.5
+  lengthScale: 1.2
 --- !u!1 &8188667945372745454
 GameObject:
   m_ObjectHideFlags: 0

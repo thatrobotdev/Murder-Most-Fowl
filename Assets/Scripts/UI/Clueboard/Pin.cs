@@ -8,29 +8,21 @@ using UnityEngine.EventSystems;
 
 public class Pin : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDragHandler
 {
-    private UILineRenderer _lineRenderer;
+    //private UILineRenderer _lineRenderer;
+    private ClueString clueString;
 
     private Pin _connected;
     
     private void Awake()
     {
-        _lineRenderer = GetComponentInChildren<UILineRenderer>();
+        clueString = GetComponentInChildren<ClueString>();
     }
     
     bool _isDragging;
 
-    private bool _lrNeedSetParent = true;
-    private void SetLineRendererParent()
-    {
-        if (!_lrNeedSetParent) return;
-        _lineRenderer.rectTransform.SetParent(ClueBoardManager.Instance.StringRenderers);
-        _lrNeedSetParent = false;
-    }
-
     void Update()
     {
-        SetLineRendererParent();
-        _lineRenderer.transform.position = transform.position;
+        clueString.transform.position = transform.position;
         if (!_isDragging && _connected != null)
         {
             SetLineRendererEnd(_connected.transform.position);
@@ -40,7 +32,7 @@ public class Pin : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDragHandl
     void SetLineRendererEnd(Vector2 endPos)
     {
         endPos = (endPos - (Vector2) transform.position) / ClueBoardManager.Instance.BoardTransform.localScale;
-        _lineRenderer.SetEndPoint(endPos);
+        clueString.SetEndPoint(endPos);
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -75,7 +67,7 @@ public class Pin : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDragHandl
 
         if (_connected == null)
         {
-            _lineRenderer.SetEndPoint(Vector2.zero);
+            clueString.SetEndPoint(Vector2.zero);
         }
     }
 }
