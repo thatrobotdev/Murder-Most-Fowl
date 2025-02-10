@@ -1,10 +1,13 @@
 fileFormatVersion: 2
-guid: 1e639421fb9793e4fa564e055615cbc3
+guid: 5d9da78b06d556b44bfebb10f578b4dd
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 9135130128162984572
-    second: rice_0
+      213: -7577487481039880905
+    second: Goose_Talk_0
+  - first:
+      213: -297960721680833364
+    second: Goose_Talk_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +116,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: rice_0
+      name: Goose_Talk_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 100
         y: 0
-        width: 1000
-        height: 668
+        width: 776
+        height: 2300
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +131,30 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c729f1a937086ce70800000000000000
-      internalID: 9135130128162984572
+      spriteID: 73df5a2884b57d690800000000000000
+      internalID: -7577487481039880905
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Goose_Talk_1
+      rect:
+        serializedVersion: 2
+        x: 1063
+        y: 0
+        width: 776
+        height: 2300
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ca4e1336d4e6ddbf0800000000000000
+      internalID: -297960721680833364
       vertices: []
       indices: 
       edges: []
@@ -147,8 +172,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      rice_0: 9135130128162984572
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
