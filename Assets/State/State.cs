@@ -12,4 +12,5 @@ public class State
     public UDateTime LastSaved;
 
     public bool TestTag;
+    public string ExampleString;
 }

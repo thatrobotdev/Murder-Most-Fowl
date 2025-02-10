@@ -32,16 +32,6 @@ public class StateManager : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        if (m_activeState == null) NewState();
-    }
-
-    private void Update()
-    {
-
-    }
-
     public void NewState()
     {
         m_activeState = new State();
