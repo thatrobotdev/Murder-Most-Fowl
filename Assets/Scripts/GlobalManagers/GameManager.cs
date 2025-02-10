@@ -6,10 +6,11 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     private SceneManager m_sceneManager;
-    public SceneManager SceneManager => m_sceneManager;
+    public static SceneManager SceneManager => Instance.m_sceneManager;
 
     private StateManager m_stateManager;
-    public StateManager StateManager => m_stateManager;
+    public static StateManager StateManager => Instance.m_stateManager;
+    public static State State => StateManager.ActiveState;
 
 
     private void Awake()
