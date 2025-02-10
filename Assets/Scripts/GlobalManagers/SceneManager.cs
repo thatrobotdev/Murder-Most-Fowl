@@ -14,7 +14,7 @@ public class SceneManager : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(LoadSceneAndSwap(m_startScene));
+        LoadSceneAndSwap(m_startScene);
     }
 
     private void Update()
@@ -25,7 +25,12 @@ public class SceneManager : MonoBehaviour
         }
     }
 
-    public IEnumerator LoadScene(string sceneName)
+    public Coroutine LoadScene(string sceneName)
+    {
+        return StartCoroutine(ILoadScene(sceneName));
+    }
+
+    private IEnumerator ILoadScene(string sceneName)
     {
         m_nextScene = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Single);
         m_nextScene.allowSceneActivation = false;
@@ -33,7 +38,12 @@ public class SceneManager : MonoBehaviour
         while (!m_nextScene.isDone && m_nextScene.progress < 0.9f) yield return null;
     }
 
-    public IEnumerator LoadSceneAndSwap(string sceneName)
+    public Coroutine LoadSceneAndSwap(string sceneName)
+    {
+        return StartCoroutine(ILoadSceneAndSwap(sceneName));
+    }
+
+    private IEnumerator ILoadSceneAndSwap(string sceneName)
     {
         yield return LoadScene(sceneName);
         SwapScene();
