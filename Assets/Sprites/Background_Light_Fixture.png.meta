@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: e7ad496a34a299a4c980ea13c3b4c929
+guid: 7259ecafafd0c4562ab08fcd34c25970
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7452707993215037657
-    second: frying_0
+      213: 406144698405772510
+    second: Background_Light_Fixture_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: frying_0
+      name: Background_Light_Fixture_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 1002
-        height: 980
+        x: 269
+        y: 137
+        width: 336
+        height: 517
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 72f04b9f099a29890800000000000000
-      internalID: -7452707993215037657
+      spriteID: edc52eb837ae2a500800000000000000
+      internalID: 406144698405772510
       vertices: []
       indices: 
       edges: []
@@ -134,8 +134,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      frying_0: -7452707993215037657
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
