@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 72ca34e4829d8479888043daa424751b
+guid: 1e639421fb9793e4fa564e055615cbc3
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2189080482238286712
-    second: Background_Stool_With_Lighting_0
+      213: 9135130128162984572
+    second: rice_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Background_Stool_With_Lighting_0
+      name: rice_0
       rect:
         serializedVersion: 2
-        x: 166
-        y: 210
-        width: 821
-        height: 1598
+        x: 0
+        y: 0
+        width: 1000
+        height: 668
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 87bcd80b91d216e10800000000000000
-      internalID: 2189080482238286712
+      spriteID: c729f1a937086ce70800000000000000
+      internalID: 9135130128162984572
       vertices: []
       indices: 
       edges: []
@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      rice_0: 9135130128162984572
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

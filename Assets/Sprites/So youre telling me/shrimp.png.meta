@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 72ca34e4829d8479888043daa424751b
+guid: 9987345b8a05b424fb0504f3addb51f5
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2189080482238286712
-    second: Background_Stool_With_Lighting_0
+      213: -9161645240248954025
+    second: shrimp_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,23 +100,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Background_Stool_With_Lighting_0
+      name: shrimp_0
       rect:
         serializedVersion: 2
-        x: 166
-        y: 210
-        width: 821
-        height: 1598
+        x: 59
+        y: 53
+        width: 687
+        height: 446
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 87bcd80b91d216e10800000000000000
-      internalID: 2189080482238286712
+      spriteID: 75310d8c13c4bd080800000000000000
+      internalID: -9161645240248954025
       vertices: []
       indices: 
       edges: []
@@ -125,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 62ed025caf6b290489dc0d233fbfc1c7
     internalID: 0
     vertices: []
     indices: 
@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      shrimp_0: -9161645240248954025
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
