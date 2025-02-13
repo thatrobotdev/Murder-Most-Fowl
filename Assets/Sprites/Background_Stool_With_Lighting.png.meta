@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Background_Stool_With_Lighting_0: 2189080482238286712
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
