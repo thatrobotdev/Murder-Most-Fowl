@@ -19,21 +19,21 @@ public class YarnStateLinker : VariableStorageBehaviour
     {
         FieldInfo f = typeof(State).GetField(variableName);
         if (f == null) throw new KeyNotFoundException(variableName + " does not exist.");
-        if (f.GetType() == typeof(string)) f.SetValue(GameManager.State, stringValue);
+        if (f.FieldType == typeof(string)) f.SetValue(GameManager.State, stringValue);
     }
 
     public override void SetValue(string variableName, float floatValue)
     {
         FieldInfo f = typeof(State).GetField(variableName);
         if (f == null) throw new KeyNotFoundException(variableName + " does not exist.");
-        if (f.GetType() == typeof(float)) f.SetValue(GameManager.State, floatValue);
+        if (f.FieldType == typeof(float)) f.SetValue(GameManager.State, floatValue);
     }
 
     public override void SetValue(string variableName, bool boolValue)
     {
         FieldInfo f = typeof(State).GetField(variableName);
         if (f == null) throw new KeyNotFoundException(variableName + " does not exist.");
-        if (f.GetType() == typeof(string)) f.SetValue(GameManager.State, boolValue);
+        if (f.FieldType == typeof(string)) f.SetValue(GameManager.State, boolValue);
     }
 
     public override void Clear()
@@ -67,11 +67,11 @@ public class YarnStateLinker : VariableStorageBehaviour
 
         foreach (FieldInfo f in typeof(State).GetFields())
         {
-            if (f.GetType() == typeof(float))
+            if (f.FieldType == typeof(float))
                 floatVariables.Add(f.Name, (float)f.GetValue(GameManager.State));
-            else if (f.GetType() == typeof(string))
+            else if (f.FieldType == typeof(string))
                 stringVariables.Add(f.Name, (string)f.GetValue(GameManager.State));
-            else if (f.GetType() == typeof(bool))
+            else if (f.FieldType == typeof(bool))
                 boolVariables.Add(f.Name, (bool)f.GetValue(GameManager.State));
         }
 

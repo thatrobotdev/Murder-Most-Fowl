@@ -15,8 +15,7 @@ public class State
 
     public bool TestTag = true;
     public bool YarnTestTag = false;
-    
-
+    public string TestString = "Hello!";
 }
 
 
