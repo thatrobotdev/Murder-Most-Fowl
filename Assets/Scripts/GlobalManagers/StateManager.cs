@@ -34,7 +34,7 @@ public class StateManager : MonoBehaviour
 
     public void NewState()
     {
-        m_activeState = new State();
+        m_activeState = new();
         m_activeState.SaveID = AssignSaveID();
         m_activeState.SaveCreated = DateTime.Now;
     }
@@ -55,7 +55,7 @@ public class StateManager : MonoBehaviour
 
     private IEnumerator ISave()
     {
-        string path = m_saveDirectory + m_activeState.SaveID + ".dat";
+        string path = m_saveDirectory + m_activeState.SaveID + ".sdat";
         using FileStream fs = File.Create(path);
         Task t = MessagePackSerializer.SerializeAsync(fs, m_activeState);
         yield return new WaitUntil(() => t.IsCompleted);
@@ -63,7 +63,7 @@ public class StateManager : MonoBehaviour
 
     public Coroutine Load(uint saveID)
     {
-        string path = m_saveDirectory + saveID + ".dat";
+        string path = m_saveDirectory + saveID + ".sdat";
         if (!File.Exists(path)) return null;
         return StartCoroutine(ILoad(path));
     }

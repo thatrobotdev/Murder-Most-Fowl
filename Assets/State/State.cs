@@ -1,16 +1,23 @@
 using UnityEngine;
-using System;
 using MessagePack;
 
-[MessagePackObject(keyAsPropertyName: true)]
-[Serializable]
+[MessagePackObject(keyAsPropertyName:true), System.Serializable]
 public class State
 {
+    [Header("Metadata")]
+
     public uint SaveID;
-    public uint TimePlayedSeconds;
     public UDateTime SaveCreated;
     public UDateTime LastSaved;
+    public uint TimePlayedSeconds;
 
-    public bool TestTag;
-    public string ExampleString;
+    [Header("Example Values")]
+
+    public bool TestTag = true;
+    public bool YarnTestTag = false;
+    
+
 }
+
+
+

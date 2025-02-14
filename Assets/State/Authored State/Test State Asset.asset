@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Test State Asset
   m_EditorClassIdentifier: 
   m_state:
-    SaveID: 5
-    TimePlayedSeconds: 0
+    SaveID: 0
     SaveCreated:
       _dateTime: 1/1/0001 12:00:00 AM
     LastSaved:
       _dateTime: 1/1/0001 12:00:00 AM
+    TimePlayedSeconds: 0
     TestTag: 1
-    ExampleString: TEXT TEXT TEXT TEXT
+    YarnTestTag: 0

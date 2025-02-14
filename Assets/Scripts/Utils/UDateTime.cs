@@ -7,11 +7,10 @@ using UnityEngine;
 
 // we have to use UDateTime instead of DateTime on our classes
 // we still typically need to either cast this to a DateTime or read the DateTime field directly
-[System.Serializable]
-[MessagePackObject]
+[MessagePackObject, System.Serializable]
 public class UDateTime : ISerializationCallbackReceiver
 {
-    [Key("dateTime")]
+    [Key(0)]
     [HideInInspector] public DateTime dateTime;
 
     // if you don't want to use the PropertyDrawer then remove HideInInspector here
