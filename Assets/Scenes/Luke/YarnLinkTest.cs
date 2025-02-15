@@ -14,7 +14,7 @@ public class YarnLinkTest : MonoBehaviour
         ysl.TryGetValue<string>("TestString", out result);
         Debug.Log(result);
         ysl.SetValue("TestString", "Bye!");
-        string x = "";
+        string x;
         ysl.TryGetValue<string>("TestString", out x);
         Debug.Log(x);
     }

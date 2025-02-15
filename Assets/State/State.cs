@@ -14,7 +14,6 @@ public class State
     [Header("Example Values")]
 
     public bool TestTag = true;
-    public bool YarnTestTag = false;
     public string TestString = "Hello!";
 }
 
