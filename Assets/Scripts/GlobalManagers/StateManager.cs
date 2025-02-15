@@ -13,11 +13,11 @@ public class StateManager : MonoBehaviour
     private List<uint> m_saves;
 
     [SerializeField]
-    private State m_activeState;
-    public State ActiveState => m_activeState;
+    private StateAsset m_stateOverride;
 
     [SerializeField]
-    private StateAsset m_stateOverride;
+    private State m_activeState;
+    public State ActiveState => m_activeState;
 
     private void Awake()
     {
