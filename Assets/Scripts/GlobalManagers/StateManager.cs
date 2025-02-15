@@ -12,6 +12,7 @@ public class StateManager : MonoBehaviour
     private string m_saveDirectory;
     private List<uint> m_saves;
 
+    [SerializeField]
     private State m_activeState;
     public State ActiveState => m_activeState;
 
@@ -43,6 +44,7 @@ public class StateManager : MonoBehaviour
     {
         uint i = 0;
         while (m_saves.Contains(i)) i++;
+        m_saves.Add(i);
         return i;
     }
 
