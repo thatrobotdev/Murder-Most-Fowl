@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 5d9da78b06d556b44bfebb10f578b4dd
+guid: 0854bea7f4791443ab057907b0ee6bf0
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -99,19 +99,6 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -172,7 +159,9 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Goose_Talk_0: -7577487481039880905
+      Goose_Talk_1: -297960721680833364
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
