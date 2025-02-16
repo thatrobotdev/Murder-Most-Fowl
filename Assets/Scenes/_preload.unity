@@ -203,6 +203,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 300fc4f8eee0c284a81efd6e2bbcfbee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_stateOverride: {fileID: 0}
   m_activeState:
     SaveID: 0
     SaveCreated:
@@ -212,7 +213,6 @@ MonoBehaviour:
     TimePlayedSeconds: 0
     TestTag: 1
     TestString: Hello!
-  m_stateOverride: {fileID: 11400000, guid: 0f8d61d49e902b4489dc0ea59097ad4c, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

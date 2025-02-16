@@ -11,10 +11,12 @@ public class State
     public UDateTime LastSaved;
     public uint TimePlayedSeconds;
 
-    [Header("Example Values")]
+    [Header("TestScene State")]
 
-    public bool TestTag = true;
-    public string TestString = "Hello!";
+    public bool GooseIntroduced = false;
+    public bool NoticedSandwich = false;
+    public bool HasHandkerchief = false;
+    public bool InspectHandkerchief = false;
 }
 
 
